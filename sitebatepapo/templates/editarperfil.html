@@ -1,0 +1,77 @@
+{% extends 'perfil.html' %}
+
+
+{% block form_editarperfil %}
+<div class="container">
+
+  <div class="row d-flex justify-content-center">
+    <div class="col col-7">
+
+      <form method="POST" action="" class="border mt-4 p-3" enctype="multipart/form-data">
+        {{ form_editar_perfil.csrf_token }}
+        <legend class="mb-3">Área de edição</legend>
+        <fieldset>
+          <div class="form-group mb-2">
+            {{ form_editar_perfil.nome.label(class="form-control-label") }}
+            {% if form_editar_perfil.nome.errors %}
+              {{ form_editar_perfil.nome(class='form-control is-invalid') }}
+                <div class="invalid-feedback">
+                  {% for erro in form_editar_perfil.nome.errors %}
+                    {{ erro }}
+                  {% endfor %}
+                </div>
+            {% else %}
+              {{ form_editar_perfil.nome(class="form-control") }}
+            {% endif %}
+          </div>
+          <div class="form-group mb-2">
+            {{ form_editar_perfil.email.label(class="form-control-label") }}
+            {% if form_editar_perfil.email.errors %}
+              {{ form_editar_perfil.email(class='form-control is-invalid') }}
+                <div class="invalid-feedback">
+                  {% for erro in form_editar_perfil.email.errors %}
+                    {{ erro }}
+                  {% endfor %}
+                </div>
+            {% else %}
+              {{ form_editar_perfil.email(class="form-control") }}
+            {% endif %}
+          </div>
+          <div class="form-group d-flex">
+            {{ form_editar_perfil.foto_perfil.label(class="form-control-label m-1") }}
+            {{ form_editar_perfil.foto_perfil(class="form-control-file me-5") }}
+          <div class="ms-5 mt-1">
+            {% if current_user.foto_perfil != 'default.jpg' %}
+              {{ form_editar_perfil.remover_foto.label(class="form-control-label") }}
+              {{ form_editar_perfil.remover_foto(class="form-check-input") }}
+            {% endif %}
+          </div>
+            {% if form_editar_perfil.errors %}
+              {% for erro in form_editar_perfil.foto_perfil.errors %}
+                <span class="text-danger">{{ erro }}</span><br>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <hr>
+          <legend>RPGs que participei</legend>
+          <div class="form-group ms-3">
+            {% for campo in form_editar_perfil %}
+              {% if 'rpg_' in campo.name %}
+                <div>
+                  {{ campo(class="form-check-input p-2") }}
+                  {{ campo.label(class="form-control-label") }}
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </fieldset>
+
+        {{ form_editar_perfil.botao_submit_editar_perfil(class="btn btn-primary mt-4") }}
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

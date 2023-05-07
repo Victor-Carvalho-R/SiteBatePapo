@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<div class="container">
+    <div class="mb-4" style="text-align: center">
+        <h1 style="color: purple">Bate-Papo</h1>
+        Mande suas mensagens!
+    </div>
+    {% for post in lista_posts %}
+        {% if post.autor.id == current_user.id %}
+            <div class="row border mt-2 p-3 meupost">
+        {% else %}
+            <div class="row border mt-2 p-3 post">
+        {% endif %}
+                <div class="col col-2" style="text-align: center">
+                    <div class="image">
+                        <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(post.autor.foto_perfil)) }}" class="rounded" width="150">
+                        {% if post.autor.id == current_user.id %}
+                            <div class="mt-2">
+                                <a style="text-decoration: none" href="/post/{{ post.id }}">Abrir post</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col col-9">
+                    <h6>{{ post.autor.nome }}</h6>
+                    <hr>
+                    <p>{{ post.corpo }}</p>
+                </div>
+            </div>
+    {% endfor %}
+</div>
+<footer id="footer">Fim da página</footer>
+
+{% endblock %}

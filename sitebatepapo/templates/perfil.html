@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<div class="mt-5 d-flex justify-content-center">
+
+    <div class="card p-2 align-items-center">
+
+        <div class="d-flex">
+
+            <div class="image me-1 border p-2 rounded align-items-center">
+
+                <img src="{{ foto_perfil }}" class="rounded" width="180">
+            </div>
+            <div class="ml-3 w-100 border p-2">
+
+                <h4 class="mb-0 mt-0">{{ current_user.nome }}</h4>
+                <span>{{ current_user.email }}</span>
+                <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+
+                    <div class="d-flex flex-column">
+                        <span class="rpgs">RPGs</span>
+                        {% if current_user.rpgs == 'Não Informado' %}
+                            <span class="number1">0</span>
+                        {% elif current_user.rpgs %}
+                            <span class="number1">{{ current_user.rpgs.count(';') + 1 }}</span>
+                        {% else %}
+                            <span class="number1">0</span>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex flex-column">
+
+                        <span class="posts">Posts</span>
+                        <span class="number2">{{ current_user.contar_posts() }}</span>
+                    </div>
+                </div>
+                <div class="button mt-2 d-flex flex-row align-items-center">
+
+                    <a class="w-100" href="{{ url_for(funcao_pagina) }}">
+
+                        <button class="btn btn-sm btn-outline-primary w-100">{{ texto_botao_editarperfil }}</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% if current_user.rpgs %}
+    <div class="row justify-content-center">
+            <div class="col col-4" style="text-align: center">
+                <strong>RPGs Participados</strong><br>
+                {% for rpg in current_user.rpgs.split(';') %}
+                    <button type="button" class="btn btn-success mt-2" disabled>{{ rpg }}</button>
+                {% endfor %}
+            </div>
+    </div>
+{% endif %}
+
+
+{% block form_editarperfil %}
+{% endblock %}
+
+{% endblock %}
